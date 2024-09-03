@@ -19,7 +19,7 @@ A Python script designed to interact with Cisco network devices, gather various 
 
 This project aims to automate the process of collecting data from Cisco network devices using Python. It leverages libraries like `netmiko` for SSH connections and `paramiko` for more complex interactions if needed. The script can be used for network monitoring, configuration backups, or as a foundation for more complex network management tools.
 
-## Features
+## Features (working on it)
 
 - **Device Connection:** Secure SSH connections to Cisco devices.
 - **Data Collection:** Gather information like device status, interfaces, routing tables, etc.
@@ -57,7 +57,7 @@ pip install netmiko paramiko pandas requests
    pip install -r requirements.txt
    ```
 
-## Usage
+## Usage (working on it)
 
 Run the script with:
 
