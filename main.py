@@ -1,3 +1,4 @@
+import os
 import yaml
 from gather_data import collect_data
 from backup_config import backup_configuration
@@ -5,11 +6,24 @@ from reporting import generate_report
 
 def load_config(config_file='config.yaml'):
     with open(config_file, 'r') as file:
-        return yaml.safe_load(file)
+        config = yaml.safe_load(file)
+
+    # Read credentials from environment variables
+    for device in config['devices']:
+        device['username'] = os.getenv('DEVICE_USERNAME')
+        device['password'] = os.getenv('DEVICE_PASSWORD')
+        if device['username'] is None or device['password'] is None:
+            raise ValueError("Device credentials not found in environment variables.")
+
+    return config
 
 def main():
-    config = load_config()
-    
+    try:
+        config = load_config()
+    except ValueError as e:
+        print(f"Error: {e}")
+        return
+
     for device in config['devices']:
         hostname = device['hostname']
         username = device['username']
@@ -18,10 +32,10 @@ def main():
 
         # Data collection
         data = collect_data(hostname, username, password, commands)
-        
+
         # Backup configuration
         backup_configuration(hostname, username, password)
-        
+
         # Generate report
         generate_report(hostname, data)
 
